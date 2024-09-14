@@ -8,4 +8,6 @@ type AdminServiceInter interface {
 	LoginService(p *pb.AdminLogin) (*pb.AdminResponse, error)
 	BlockUserService(p *pb.UserId) (*pb.AdminResponse, error)
 	UnBlockUserService(p *pb.UserId) (*pb.AdminResponse, error)
+	GetAllUsersService(p *pb.AdNoParam) (*pb.AdUserList, error)
+	GetUserByIDService(p *pb.AdID) (*pb.AdUserProfile, error)
 }

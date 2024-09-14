@@ -11,7 +11,7 @@ service UserService {
     rpc BlockUser(ID) returns(Response);
     rpc UnBlockUser(ID) returns(Response);
     rpc GetAllUsers(NoParam) returns(UserList);
-
+    rpc ViewProfile(ID) returns(Profile);
 }
 
 message ID {
