@@ -11,7 +11,7 @@ type Config struct {
 	Port      string `mapstructure:"PORT"`
 	Sslmode   string `mapstructure:"SSL"`
 	GrpcPort  string `mapstructure:"GRPCPORT"`
-	// ProductPort string `mapstructure:"GRPCPRODUCTPORT"`
+	ProblemPort string `mapstructure:"GRPCPROBLEMPORT"`
 	UserPort string `mapstructure:"GRPCUSERPORT"`
 }
 
