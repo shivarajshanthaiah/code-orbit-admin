@@ -20,4 +20,5 @@ type AdminServiceInter interface {
 
 	InsertTestCaseService(ctx context.Context, req *pb.AdTestCaseRequest) (*pb.AdminResponse, error)
 	UpdateTestCaseService(ctx context.Context, req *pb.AdUpdateTestCaseRequest) (*pb.AdminResponse, error)
+	GetProblemWithTestCasesService(ctx context.Context, req *pb.AdProblemId) (*pb.AdminTestcaseResponse, error)
 }

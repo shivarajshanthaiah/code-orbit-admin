@@ -26,3 +26,11 @@ func (a *AdminHandler) AdminGetAllProblems(ctx context.Context, p *pb.AdNoParam)
 // func (a *AdminHandler) AdminEditProblem(ctx context.Context, p *pb.AdProblem) (*pb.AdProblem, error){
 
 // }
+
+func (a *AdminHandler) GetProblemWithTestCases(ctx context.Context, p *pb.AdProblemId) (*pb.AdminTestcaseResponse, error) {
+    response, err := a.SVC.GetProblemWithTestCasesService(ctx, p)
+    if err != nil {
+        return response, err
+    }
+    return response, nil
+}

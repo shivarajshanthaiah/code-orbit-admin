@@ -20,7 +20,31 @@ service AdminService {
 
     rpc InsertTestCases(AdTestCaseRequest) returns(AdminResponse);
     rpc UpdateTestCases(AdUpdateTestCaseRequest) returns (AdminResponse);
+    rpc GetProblemWithTestCases(AdProblemId) returns (AdminTestcaseResponse);
 
+}
+
+message AdProblemWithTestCases {
+    AdProblem problem = 1;
+    repeated AdTestCase test_cases = 2;
+}
+
+message AdminTestcaseResponse {
+    enum Status {
+        OK = 0;
+        ERROR = 1;
+    }
+
+    Status status = 1;
+    string message = 2;
+    oneof payload {
+        string error = 3;
+        AdProblemWithTestCases data = 4;
+    }
+}
+
+message AdProblemId {
+    int32 ID = 1;
 }
 
 message AdUpdateTestCaseRequest {
@@ -29,9 +53,15 @@ message AdUpdateTestCaseRequest {
     repeated AdTestCase test_cases = 3;
 }
 
+// message AdTestCase{
+//     string input = 1;
+//     string expected_output = 2;
+// }
+
 message AdTestCase{
-    string input = 1;
-    string expected_output = 2;
+    string test_case_id = 1;
+    string input = 2;
+    string expected_output = 3;
 }
 
 message AdTestCaseRequest {
