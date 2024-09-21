@@ -15,7 +15,7 @@ type Claims struct {
 
 // GenerateToken will generate token for 5 hours with given data
 func GenerateToken(key, email string) (string, error) {
-	expTime := time.Now().Add(time.Hour * 5).Unix()
+	expTime := time.Now().Add(time.Hour * 10).Unix()
 
 	claims := &Claims{
 		Email: email,

@@ -13,3 +13,16 @@ func (a *AdminHandler) InsertProblem(ctx context.Context, p *pb.AdProblem) (*pb.
 	}
 	return response, nil
 }
+
+func (a *AdminHandler) AdminGetAllProblems(ctx context.Context, p *pb.AdNoParam) (*pb.AdProblemList, error) {
+	response, err := a.SVC.GetAllProblemsService(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}
+
+
+// func (a *AdminHandler) AdminEditProblem(ctx context.Context, p *pb.AdProblem) (*pb.AdProblem, error){
+
+// }

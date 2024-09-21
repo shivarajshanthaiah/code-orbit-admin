@@ -16,6 +16,7 @@ func (a *AdminService) InsertProblemService(p *pb.AdProblem) (*pb.AdminResponse,
 		Discription: p.Discription,
 		Difficulty:  p.Difficulty,
 		Tags:        p.Tags,
+		IsPremium:   p.IsPremium,
 	}
 
 	result, err := a.ProblemClient.InsertProblem(ctx, problem)
@@ -34,3 +35,34 @@ func (a *AdminService) InsertProblemService(p *pb.AdProblem) (*pb.AdminResponse,
 		Message: result.Message,
 	}, nil
 }
+
+func (a *AdminService) GetAllProblemsService(p *pb.AdNoParam) (*pb.AdProblemList, error) {
+	ctx := context.Background()
+
+	result, err := a.ProblemClient.GetAllProblems(ctx, &problempb.ProbNoParam{})
+	if err != nil {
+		return nil, err
+	}
+
+	var problemList pb.AdProblemList
+	for _, problem := range result.Problems {
+		adProblem := &pb.AdProblem{
+			ID:          uint32(problem.ID),
+			Title:       problem.Title,
+			Discription: problem.Discription,
+			Difficulty:  problem.Difficulty,
+			Tags:        problem.Tags,
+			IsPremium:   problem.IsPremium,
+		}
+		problemList.Problems = append(problemList.Problems, adProblem)
+	}
+
+	return &problemList, nil
+}
+
+
+// func (a *AdminService) EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error){
+// 	ctx := context.Background()
+
+// 	problem, err := a.ProblemClient.Find
+// }
