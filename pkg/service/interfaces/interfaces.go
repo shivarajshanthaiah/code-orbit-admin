@@ -16,7 +16,7 @@ type AdminServiceInter interface {
 
 	InsertProblemService(p *pb.AdProblem) (*pb.AdminResponse, error)
 	GetAllProblemsService(p *pb.AdNoParam) (*pb.AdProblemList, error)
-	// EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error)
+	EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error)
 
 	InsertTestCaseService(ctx context.Context, req *pb.AdTestCaseRequest) (*pb.AdminResponse, error)
 	UpdateTestCaseService(ctx context.Context, req *pb.AdUpdateTestCaseRequest) (*pb.AdminResponse, error)

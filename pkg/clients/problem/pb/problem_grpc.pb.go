@@ -25,6 +25,7 @@ type ProblemServiceClient interface {
 	InsertProblem(ctx context.Context, in *Problem, opts ...grpc.CallOption) (*ProblemResponse, error)
 	GetAllProblems(ctx context.Context, in *ProbNoParam, opts ...grpc.CallOption) (*ProblemList, error)
 	EditProblem(ctx context.Context, in *Problem, opts ...grpc.CallOption) (*Problem, error)
+	FindProblemByID(ctx context.Context, in *ProblemId, opts ...grpc.CallOption) (*Problem, error)
 	InsertTestCases(ctx context.Context, in *TestCaseRequest, opts ...grpc.CallOption) (*TestCaseResponse, error)
 	UpdateTestCases(ctx context.Context, in *UpdateTestCaseRequest, opts ...grpc.CallOption) (*TestCaseResponse, error)
 	GetProblemWithTestCases(ctx context.Context, in *ProblemId, opts ...grpc.CallOption) (*GetProblemResponse, error)
@@ -65,6 +66,15 @@ func (c *problemServiceClient) EditProblem(ctx context.Context, in *Problem, opt
 	return out, nil
 }
 
+func (c *problemServiceClient) FindProblemByID(ctx context.Context, in *ProblemId, opts ...grpc.CallOption) (*Problem, error) {
+	out := new(Problem)
+	err := c.cc.Invoke(ctx, "/pb.ProblemService/FindProblemByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) InsertTestCases(ctx context.Context, in *TestCaseRequest, opts ...grpc.CallOption) (*TestCaseResponse, error) {
 	out := new(TestCaseResponse)
 	err := c.cc.Invoke(ctx, "/pb.ProblemService/InsertTestCases", in, out, opts...)
@@ -99,6 +109,7 @@ type ProblemServiceServer interface {
 	InsertProblem(context.Context, *Problem) (*ProblemResponse, error)
 	GetAllProblems(context.Context, *ProbNoParam) (*ProblemList, error)
 	EditProblem(context.Context, *Problem) (*Problem, error)
+	FindProblemByID(context.Context, *ProblemId) (*Problem, error)
 	InsertTestCases(context.Context, *TestCaseRequest) (*TestCaseResponse, error)
 	UpdateTestCases(context.Context, *UpdateTestCaseRequest) (*TestCaseResponse, error)
 	GetProblemWithTestCases(context.Context, *ProblemId) (*GetProblemResponse, error)
@@ -117,6 +128,9 @@ func (UnimplementedProblemServiceServer) GetAllProblems(context.Context, *ProbNo
 }
 func (UnimplementedProblemServiceServer) EditProblem(context.Context, *Problem) (*Problem, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) FindProblemByID(context.Context, *ProblemId) (*Problem, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindProblemByID not implemented")
 }
 func (UnimplementedProblemServiceServer) InsertTestCases(context.Context, *TestCaseRequest) (*TestCaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InsertTestCases not implemented")
@@ -194,6 +208,24 @@ func _ProblemService_EditProblem_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_FindProblemByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProblemId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).FindProblemByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ProblemService/FindProblemByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).FindProblemByID(ctx, req.(*ProblemId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_InsertTestCases_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TestCaseRequest)
 	if err := dec(in); err != nil {
@@ -266,6 +298,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EditProblem",
 			Handler:    _ProblemService_EditProblem_Handler,
+		},
+		{
+			MethodName: "FindProblemByID",
+			Handler:    _ProblemService_FindProblemByID_Handler,
 		},
 		{
 			MethodName: "InsertTestCases",

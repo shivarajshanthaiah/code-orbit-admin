@@ -60,9 +60,26 @@ func (a *AdminService) GetAllProblemsService(p *pb.AdNoParam) (*pb.AdProblemList
 	return &problemList, nil
 }
 
+func (a *AdminService) EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error) {
+	ctx := context.Background()
 
-// func (a *AdminService) EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error){
-// 	ctx := context.Background()
+	problem, err := a.ProblemClient.FindProblemByID(ctx, &problempb.ProblemId{
+		ID: int32(p.ID),
+	})
+	if err != nil {
+		return nil, err
+	}
 
-// 	problem, err := a.ProblemClient.Find
-// }
+	problem.Title = p.Title
+	problem.Discription = p.Discription
+	problem.Difficulty = p.Difficulty
+	problem.Tags = p.Tags
+	problem.IsPremium = p.IsPremium
+
+	_, err = a.ProblemClient.EditProblem(ctx, problem)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}

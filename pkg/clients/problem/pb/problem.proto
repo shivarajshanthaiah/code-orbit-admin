@@ -8,6 +8,7 @@ service ProblemService{
     rpc InsertProblem(Problem) returns(ProblemResponse);
     rpc GetAllProblems(ProbNoParam) returns(ProblemList);
     rpc EditProblem(Problem) returns(Problem);
+    rpc FindProblemByID(ProblemId) returns(Problem);
 
     rpc InsertTestCases(TestCaseRequest) returns(TestCaseResponse);
     rpc UpdateTestCases(UpdateTestCaseRequest) returns (TestCaseResponse);

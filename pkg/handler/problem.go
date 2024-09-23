@@ -22,15 +22,18 @@ func (a *AdminHandler) AdminGetAllProblems(ctx context.Context, p *pb.AdNoParam)
 	return response, nil
 }
 
-
-// func (a *AdminHandler) AdminEditProblem(ctx context.Context, p *pb.AdProblem) (*pb.AdProblem, error){
-
-// }
+func (a *AdminHandler) AdminEditProblem(ctx context.Context, p *pb.AdProblem) (*pb.AdProblem, error) {
+	response, err := a.SVC.EditProblemService(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}
 
 func (a *AdminHandler) GetProblemWithTestCases(ctx context.Context, p *pb.AdProblemId) (*pb.AdminTestcaseResponse, error) {
-    response, err := a.SVC.GetProblemWithTestCasesService(ctx, p)
-    if err != nil {
-        return response, err
-    }
-    return response, nil
+	response, err := a.SVC.GetProblemWithTestCasesService(ctx, p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
 }
