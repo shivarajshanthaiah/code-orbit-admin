@@ -83,3 +83,20 @@ func (a *AdminService) EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error
 
 	return p, nil
 }
+
+func (a *AdminService) UpgradeProblemService(p *pb.AdProblemId) (*pb.AdminResponse, error){
+	ctx := context.Background()
+
+	problem := &problempb.ProblemId{
+		ID: p.ID,
+	}
+	 _, err := a.ProblemClient.AdminUpgradeProbem(ctx, problem)
+	 if err != nil {
+		return nil, err
+	}
+
+	return &pb.AdminResponse{
+		Status: pb.AdminResponse_OK,
+		Message: "Problem upgraded successfully",
+	}, nil
+}

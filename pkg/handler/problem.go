@@ -37,3 +37,11 @@ func (a *AdminHandler) GetProblemWithTestCases(ctx context.Context, p *pb.AdProb
 	}
 	return response, nil
 }
+
+func (a *AdminHandler) AdminUpgradeProbem(ctx context.Context, p *pb.AdProblemId) (*pb.AdminResponse, error) {
+	response, err := a.SVC.UpgradeProblemService(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}
