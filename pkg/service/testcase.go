@@ -151,7 +151,7 @@ func (a *AdminService) GetProblemWithTestCasesService(ctx context.Context, req *
 					Title:       problem.Title,
 					Discription: problem.Discription,
 					Difficulty:  problem.Difficulty,
-					Tags:        problem.Tags,
+					Type:        problem.Type,
 					IsPremium:   problem.IsPremium,
 				},
 				TestCases: adminTestCases,

@@ -122,6 +122,6 @@ message AdProblem{
     string Title = 2;
     string Discription = 3;
     string Difficulty = 4;
-    string Tags = 5;
+    string Type = 5;
     bool IsPremium = 6;
 }

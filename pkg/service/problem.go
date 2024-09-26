@@ -15,7 +15,7 @@ func (a *AdminService) InsertProblemService(p *pb.AdProblem) (*pb.AdminResponse,
 		Title:       p.Title,
 		Discription: p.Discription,
 		Difficulty:  p.Difficulty,
-		Tags:        p.Tags,
+		Type:        p.Type,
 		IsPremium:   p.IsPremium,
 	}
 
@@ -51,7 +51,7 @@ func (a *AdminService) GetAllProblemsService(p *pb.AdNoParam) (*pb.AdProblemList
 			Title:       problem.Title,
 			Discription: problem.Discription,
 			Difficulty:  problem.Difficulty,
-			Tags:        problem.Tags,
+			Type:        problem.Type,
 			IsPremium:   problem.IsPremium,
 		}
 		problemList.Problems = append(problemList.Problems, adProblem)
@@ -73,7 +73,7 @@ func (a *AdminService) EditProblemService(p *pb.AdProblem) (*pb.AdProblem, error
 	problem.Title = p.Title
 	problem.Discription = p.Discription
 	problem.Difficulty = p.Difficulty
-	problem.Tags = p.Tags
+	problem.Type = p.Type
 	problem.IsPremium = p.IsPremium
 
 	_, err = a.ProblemClient.EditProblem(ctx, problem)
