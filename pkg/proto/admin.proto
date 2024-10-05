@@ -23,6 +23,25 @@ service AdminService {
     rpc UpdateTestCases(AdUpdateTestCaseRequest) returns (AdminResponse);
     rpc GetProblemWithTestCases(AdProblemId) returns (AdminTestcaseResponse);
 
+    rpc AddSubscriptionPlan(AdSubscription) returns(AdminResponse);
+    rpc GetAllPlans(AdNoParam) returns(AdPlanList);
+    rpc AdminUpdatePlan(AdSubscription) returns(AdSubscription);
+}
+
+message PlanID {
+    int32 ID = 1;
+}
+
+message AdPlanList {
+    repeated AdSubscription plans = 1;
+}
+
+message AdSubscription {
+    uint32 ID = 1;
+    string plan = 2;      
+    double price = 3;      
+    double gst = 4;        
+    double total_price = 5;
 }
 
 message AdProblemWithTestCases {
