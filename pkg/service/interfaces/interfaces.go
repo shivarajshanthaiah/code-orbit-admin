@@ -26,4 +26,5 @@ type AdminServiceInter interface {
 	InsertPlanService(p *pb.AdSubscription) (*pb.AdminResponse, error)
 	UpdatePlanService(p *pb.AdSubscription) (*pb.AdSubscription, error)
 	FindAllPlansService(p *pb.AdNoParam) (*pb.AdPlanList, error)
+	GetSubscriptionByIDService(p *pb.SubscriptionID) (*pb.AdSubscription, error)
 }

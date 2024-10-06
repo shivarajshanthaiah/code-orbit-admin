@@ -9,6 +9,7 @@ func (a *AdminService) InsertPlanService(p *pb.AdSubscription) (*pb.AdminRespons
 
 	plan := model.Subscription{
 		Plan:       p.Plan,
+		Duration:   p.Duration,
 		Price:      p.Price,
 		GST:        p.Gst,
 		TotalPrice: p.TotalPrice,
@@ -38,6 +39,7 @@ func (a *AdminService) UpdatePlanService(p *pb.AdSubscription) (*pb.AdSubscripti
 	}
 
 	plan.Plan = p.Plan
+	plan.Duration = p.Duration
 	plan.Price = p.Price
 	plan.GST = p.Gst
 	plan.TotalPrice = p.TotalPrice
@@ -64,6 +66,7 @@ func (a *AdminService) FindAllPlansService(p *pb.AdNoParam) (*pb.AdPlanList, err
 		pbPlan := &pb.AdSubscription{
 			ID:         uint32(plan.ID),
 			Plan:       plan.Plan,
+			Duration:   plan.Duration,
 			Price:      plan.Price,
 			Gst:        plan.GST,
 			TotalPrice: plan.TotalPrice,
@@ -71,4 +74,22 @@ func (a *AdminService) FindAllPlansService(p *pb.AdNoParam) (*pb.AdPlanList, err
 		planList.Plans = append(planList.Plans, pbPlan)
 	}
 	return &planList, nil
+}
+
+func (a *AdminService) GetSubscriptionByIDService(p *pb.SubscriptionID) (*pb.AdSubscription, error) {
+	result, err := a.Repo.GetPlanByID(uint(p.ID))
+	if err != nil {
+		return nil, err
+	}
+
+	subscription := &pb.AdSubscription{
+		ID:         uint32(result.ID),
+		Plan:       result.Plan,
+		Duration:   result.Duration,
+		Price:      result.Price,
+		Gst:        result.GST,
+		TotalPrice: result.TotalPrice,
+	}
+
+	return subscription, nil
 }

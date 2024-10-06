@@ -29,3 +29,11 @@ func (a *AdminHandler) GetAllPlans(ctx context.Context, p *pb.AdNoParam) (*pb.Ad
 	}
 	return response, nil
 }
+
+func (a *AdminHandler) GetSubscriptionByID(ctx context.Context, p *pb.SubscriptionID) (*pb.AdSubscription, error) {
+	response, err := a.SVC.GetSubscriptionByIDService(p)
+	if err != nil {
+		return response, err
+	}
+	return response, nil
+}
