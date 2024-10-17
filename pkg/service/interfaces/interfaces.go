@@ -30,4 +30,6 @@ type AdminServiceInter interface {
 
 	AdminGetAllUserStatsService(p *pb.AdUserStatsRequest) (*pb.AdUserStatsResponse, error)
 	AdminGetAllSubscriptionStatsService(p *pb.AdSubscriptionStatsRequest) (*pb.AdSubscriptionStatsResponse, error)
+	AdminGetProblemStatsService(req *pb.AdProblemStatsRequest) (*pb.AdProblemStatsResponse, error)
+	AdminGetLeaderboardStatsService(req *pb.AdLeaderboardRequest) (*pb.AdLeaderboardResponse, error)
 }
