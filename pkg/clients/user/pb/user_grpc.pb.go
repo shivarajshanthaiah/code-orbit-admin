@@ -27,6 +27,9 @@ type UserServiceClient interface {
 	UnBlockUser(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Response, error)
 	GetAllUsers(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UserList, error)
 	ViewProfile(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Profile, error)
+	AddSubscriptionPlan(ctx context.Context, in *USubscription, opts ...grpc.CallOption) (*Response, error)
+	GetAllPlans(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UPlanList, error)
+	UpdatePlan(ctx context.Context, in *USubscription, opts ...grpc.CallOption) (*USubscription, error)
 	GetUserProfileStats(ctx context.Context, in *UserStatsRequest, opts ...grpc.CallOption) (*UserStatsProfileResponse, error)
 	GetSubscriptionStats(ctx context.Context, in *SubscriptionStatsRequest, opts ...grpc.CallOption) (*SubscriptionStatsResponse, error)
 }
@@ -75,6 +78,33 @@ func (c *userServiceClient) ViewProfile(ctx context.Context, in *ID, opts ...grp
 	return out, nil
 }
 
+func (c *userServiceClient) AddSubscriptionPlan(ctx context.Context, in *USubscription, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, "/pb.UserService/AddSubscriptionPlan", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetAllPlans(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*UPlanList, error) {
+	out := new(UPlanList)
+	err := c.cc.Invoke(ctx, "/pb.UserService/GetAllPlans", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdatePlan(ctx context.Context, in *USubscription, opts ...grpc.CallOption) (*USubscription, error) {
+	out := new(USubscription)
+	err := c.cc.Invoke(ctx, "/pb.UserService/UpdatePlan", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) GetUserProfileStats(ctx context.Context, in *UserStatsRequest, opts ...grpc.CallOption) (*UserStatsProfileResponse, error) {
 	out := new(UserStatsProfileResponse)
 	err := c.cc.Invoke(ctx, "/pb.UserService/GetUserProfileStats", in, out, opts...)
@@ -102,6 +132,9 @@ type UserServiceServer interface {
 	UnBlockUser(context.Context, *ID) (*Response, error)
 	GetAllUsers(context.Context, *NoParam) (*UserList, error)
 	ViewProfile(context.Context, *ID) (*Profile, error)
+	AddSubscriptionPlan(context.Context, *USubscription) (*Response, error)
+	GetAllPlans(context.Context, *NoParam) (*UPlanList, error)
+	UpdatePlan(context.Context, *USubscription) (*USubscription, error)
 	GetUserProfileStats(context.Context, *UserStatsRequest) (*UserStatsProfileResponse, error)
 	GetSubscriptionStats(context.Context, *SubscriptionStatsRequest) (*SubscriptionStatsResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -122,6 +155,15 @@ func (UnimplementedUserServiceServer) GetAllUsers(context.Context, *NoParam) (*U
 }
 func (UnimplementedUserServiceServer) ViewProfile(context.Context, *ID) (*Profile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ViewProfile not implemented")
+}
+func (UnimplementedUserServiceServer) AddSubscriptionPlan(context.Context, *USubscription) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddSubscriptionPlan not implemented")
+}
+func (UnimplementedUserServiceServer) GetAllPlans(context.Context, *NoParam) (*UPlanList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllPlans not implemented")
+}
+func (UnimplementedUserServiceServer) UpdatePlan(context.Context, *USubscription) (*USubscription, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlan not implemented")
 }
 func (UnimplementedUserServiceServer) GetUserProfileStats(context.Context, *UserStatsRequest) (*UserStatsProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfileStats not implemented")
@@ -214,6 +256,60 @@ func _UserService_ViewProfile_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_AddSubscriptionPlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(USubscription)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddSubscriptionPlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.UserService/AddSubscriptionPlan",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddSubscriptionPlan(ctx, req.(*USubscription))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetAllPlans_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NoParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetAllPlans(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.UserService/GetAllPlans",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetAllPlans(ctx, req.(*NoParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdatePlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(USubscription)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdatePlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.UserService/UpdatePlan",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdatePlan(ctx, req.(*USubscription))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_GetUserProfileStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserStatsRequest)
 	if err := dec(in); err != nil {
@@ -272,6 +368,18 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ViewProfile",
 			Handler:    _UserService_ViewProfile_Handler,
+		},
+		{
+			MethodName: "AddSubscriptionPlan",
+			Handler:    _UserService_AddSubscriptionPlan_Handler,
+		},
+		{
+			MethodName: "GetAllPlans",
+			Handler:    _UserService_GetAllPlans_Handler,
+		},
+		{
+			MethodName: "UpdatePlan",
+			Handler:    _UserService_UpdatePlan_Handler,
 		},
 		{
 			MethodName: "GetUserProfileStats",

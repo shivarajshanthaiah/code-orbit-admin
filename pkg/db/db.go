@@ -27,7 +27,6 @@ func ConnectDB(config *config.Config) *gorm.DB {
 
 	err = DB.AutoMigrate(
 		model.Admin{},
-		model.Subscription{},
 	)
 
 	if err != nil {
