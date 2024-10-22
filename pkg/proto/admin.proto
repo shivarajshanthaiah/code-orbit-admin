@@ -1,0 +1,203 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./";
+
+import "google/protobuf/timestamp.proto";
+
+service AdminService {
+    rpc AdminLoginRequest(AdminLogin) returns(AdminResponse);
+
+    rpc AdminBlockUser(UserId) returns(AdminResponse);
+    rpc AdminUnBlockUser(UserId) returns(AdminResponse);
+    rpc AdminGetAllUsers(AdNoParam) returns(AdUserList);
+    rpc AdminFindUserByID(AdID) returns(AdUserProfile);
+
+    rpc InsertProblem(AdProblem) returns(AdminResponse);
+    rpc AdminGetAllProblems(AdNoParam) returns(AdProblemList);
+    rpc AdminEditProblem(AdProblem) returns(AdProblem);
+    rpc AdminUpgradeProbem(AdProblemId) returns(AdminResponse);
+
+    rpc InsertTestCases(AdTestCaseRequest) returns(AdminResponse);
+    rpc UpdateTestCases(AdUpdateTestCaseRequest) returns (AdminResponse);
+    rpc GetProblemWithTestCases(AdProblemId) returns (AdminTestcaseResponse);
+
+    rpc AddSubscriptionPlan(AdSubscription) returns(AdminResponse);
+    rpc GetAllPlans(AdNoParam) returns(AdPlanList);
+    rpc AdminUpdatePlan(AdSubscription) returns(AdSubscription);
+    rpc GetSubscriptionByID(SubscriptionID) returns (AdSubscription);
+
+    rpc AdminGetUserStats (AdUserStatsRequest) returns (AdUserStatsResponse);
+    rpc AdminGetSubscriptionStats (AdSubscriptionStatsRequest) returns (AdSubscriptionStatsResponse);
+    rpc AdminGetProblemStats (AdProblemStatsRequest) returns (AdProblemStatsResponse);
+    rpc AdminGetLeaderboardStats(AdLeaderboardRequest) returns (AdLeaderboardResponse);
+}
+
+message AdLeaderboardRequest {}
+
+message AdLeaderboardEntry {
+    string user_id = 1;
+    int32 solved_count = 2;
+    int32 rank = 3;
+}
+
+message AdLeaderboardResponse {
+    repeated AdLeaderboardEntry leaderboard = 1;
+}
+
+message AdProblemStatsRequest {}
+
+message AdProblemStatsResponse {
+    int32 total_problems = 1;
+    int32 easy_problems = 2;
+    int32 medium_problems = 3;
+    int32 hard_problems = 4;
+    map<string, int32> type_problem_count = 5;
+    int32 premium_problems = 6;
+    int32 non_premium_problems = 7;
+}
+
+message AdSubscriptionStatsRequest {}
+
+message AdSubscriptionStatsResponse {
+    int32 basic_plan_subscribers = 1;
+    int32 standard_plan_subscribers = 2;
+    int32 premium_plan_subscribers = 3;
+    uint32 total_amount_collected_lifetime = 4;
+    uint32 total_amount_collected_weekly = 5;
+    uint32 total_amount_collected_monthly = 6;
+    uint32 total_amount_collected_yearly = 7;
+}
+
+message AdUserStatsRequest {}
+
+message AdUserStatsResponse {
+    int32 total_users = 1;
+    int32 active_users = 2;
+    int32 blocked_users = 3;
+    int32 prime_users = 4;
+    int32 non_prime_users = 5;
+}
+
+message PlanResponse {
+    AdSubscription plan = 1;
+}
+
+message SubscriptionID {
+    uint32 ID = 1;
+}
+
+message AdPlanList {
+    repeated AdSubscription plans = 1;
+}
+
+message AdSubscription {
+    uint32 ID = 1;
+    string plan = 2; 
+    string duration = 3;     
+    double price = 4;      
+    double gst = 5;        
+    uint32 total_price = 6;
+}
+
+message AdProblemWithTestCases {
+    AdProblem problem = 1;
+    repeated AdTestCase test_cases = 2;
+}
+
+message AdminTestcaseResponse {
+    enum Status {
+        OK = 0;
+        ERROR = 1;
+    }
+
+    Status status = 1;
+    string message = 2;
+    oneof payload {
+        string error = 3;
+        AdProblemWithTestCases data = 4;
+    }
+}
+
+message AdProblemId {
+    int32 ID = 1;
+}
+
+message AdUpdateTestCaseRequest {
+    string test_case_id = 1; // The ID of the test case being updated
+    int32 problem_id = 2;
+    repeated AdTestCase test_cases = 3;
+}
+
+// message AdTestCase{
+//     string input = 1;
+//     string expected_output = 2;
+// }
+
+message AdTestCase{
+    string test_case_id = 1;
+    string input = 2;
+    string expected_output = 3;
+}
+
+message AdTestCaseRequest {
+    int32 problem_id = 1;
+    repeated AdTestCase test_cases = 2;
+}
+
+message AdProblemList {
+    repeated AdProblem problems = 1;
+}
+
+message AdID{
+    string ID = 1;
+}
+
+message AdminLogin {
+    string Email = 1;
+    string Password = 2;
+}
+
+message AdminResponse {
+    enum Status {
+        OK = 0;
+        ERROR = 1;
+    }
+
+    Status status = 1;
+    string message = 2;
+    oneof payload {
+        string error = 3;
+        string data = 4;
+    }
+}
+
+message UserId {
+    string ID = 1;
+}
+
+message AdUserProfile {
+    string User_ID = 1;
+    string User_Name = 2;
+    string Email = 3; 
+    string Phone = 4;
+    bool is_Prime_Member = 5;
+    bool Is_Blocked = 6;
+    google.protobuf.Timestamp membership_Expiry_Date = 7;
+}
+
+message AdNoParam {}
+
+message AdUserList {
+    repeated AdUserProfile users = 1;
+}
+
+message AdProblem{
+    uint32 ID = 1;
+    string Title = 2;
+    string Discription = 3;
+    string Difficulty = 4;
+    string Type = 5;
+    bool IsPremium = 6;
+}
